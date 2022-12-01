@@ -1,6 +1,6 @@
 #include"DevScreen.h"
 #include"glad.h"
-#include "e68000.h"
+
 
 bool RenderLoop = true;
 SDL_Window* SDLWindow;
@@ -9,8 +9,7 @@ SDL_Event SDLEvent;
 SDL_GLContext* SDLContext;
 SDL_Surface* SDLScrn;
 SDL_Texture* SDLScrnTexture;
-e68_dasm_t* m68kDasm;
-extern e68000_t* m68kCPU;
+
 extern unsigned long m68kClk;
 extern char ROM[512*1024];
 char VRAM[2048 * 1024];
@@ -55,7 +54,7 @@ void DevScr_Init() {
 
 		//fread(ROM, 1, 512 * 1024, RomFile);
 	}
-	m68kDasm = SDL_malloc(sizeof(e68_dasm_t));
+
 	
 }
 void DevScr_DrawVRAM() {
@@ -125,8 +124,8 @@ void DevScr_BeginRenderLoop() {
 		if (SDLEvent.type == SDL_KEYDOWN) {
 			if (SDLEvent.key.keysym.sym == SDLK_d) {
 				
-				SDL_Log("%s %s %s\n", m68kDasm->op, m68kDasm->arg1, m68kDasm->arg2);
-				SDL_Log("PC:%i D0:%u A0:%u", m68kCPU->pc, m68kCPU->dreg, m68kCPU->areg);
+				/*SDL_Log("%s %s %s\n", m68kDasm->op, m68kDasm->arg1, m68kDasm->arg2);
+				SDL_Log("PC:%i D0:%u A0:%u", m68kCPU->pc, m68kCPU->dreg, m68kCPU->areg);*/
 			}
 		}
 	}
