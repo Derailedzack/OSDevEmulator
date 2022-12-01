@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
@@ -104,7 +104,7 @@
       <SDLCheck>false</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)deps\SDL2\include\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)deps\SDL2\include\;$(SolutionDir)deps\GL\include\glad;$(SolutionDir)deps\GL\include\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -130,20 +130,17 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="cc.c" />
+    <ClCompile Include="..\..\..\Users\admin\Source\Repos\GLShaderBugTest\GLShaderBugTest\glad.c" />
+    <ClCompile Include="DevEmulator.c" />
     <ClCompile Include="DevScreen.c" />
-    <ClCompile Include="disasm.c" />
-    <ClCompile Include="e68000.c" />
-    <ClCompile Include="ea.c" />
     <ClCompile Include="Main.c">
       <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">%(SolutionDir)deps/SDL2/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
-    <ClCompile Include="opcodes.c" />
-    <ClCompile Include="ops-020.c" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="DevEmulator.h" />
+    <ClInclude Include="DevDevice.h" />
     <ClInclude Include="DevScreen.h" />
-    <ClInclude Include="e68000.h" />
     <ClInclude Include="internal.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

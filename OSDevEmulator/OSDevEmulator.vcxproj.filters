@@ -21,22 +21,10 @@
     <ClCompile Include="DevScreen.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="cc.c">
+    <ClCompile Include="DevEmulator.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="disasm.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="e68000.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="ea.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="opcodes.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="ops-020.c">
+    <ClCompile Include="..\..\..\Users\admin\Source\Repos\GLShaderBugTest\GLShaderBugTest\glad.c">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -44,10 +32,13 @@
     <ClInclude Include="DevScreen.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="e68000.h">
+    <ClInclude Include="internal.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="internal.h">
+    <ClInclude Include="DevDevice.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DevEmulator.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
