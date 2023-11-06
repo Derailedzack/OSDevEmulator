@@ -1,8 +1,7 @@
 #include"DevEmulator.h"
 #include"DevScreen.h"
-#include"e68000.h"
-e68000_t* m68kCPU;
-unsigned long m68kClk = LONG_MAX;
+
+//unsigned long m68kClk = LONG_MAX;
 char ROM[256 * 1024];
 char RAM[1024 * 1024];
 extern char VRAM[2048 * 1024];
