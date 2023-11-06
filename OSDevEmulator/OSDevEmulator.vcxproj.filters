@@ -24,7 +24,7 @@
     <ClCompile Include="DevEmulator.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\Users\admin\Source\Repos\GLShaderBugTest\GLShaderBugTest\glad.c">
+    <ClCompile Include="glad.c">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

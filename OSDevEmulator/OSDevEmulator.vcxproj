@@ -130,9 +130,9 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\Users\admin\Source\Repos\GLShaderBugTest\GLShaderBugTest\glad.c" />
     <ClCompile Include="DevEmulator.c" />
     <ClCompile Include="DevScreen.c" />
+    <ClCompile Include="glad.c" />
     <ClCompile Include="Main.c">
       <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">%(SolutionDir)deps/SDL2/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
