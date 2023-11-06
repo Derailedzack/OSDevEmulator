@@ -1,7 +1,6 @@
 #include"DevEmulator.h"
 #include"DevScreen.h"
 
-//unsigned long m68kClk = LONG_MAX;
 char ROM[256 * 1024];
 char RAM[1024 * 1024];
 extern char VRAM[2048 * 1024];
@@ -43,9 +42,6 @@ unsigned long DevEmu_Read32(void* ext, unsigned long addr) {
 	return 0xff;
 }
 void DevEmu_Write8(void* ext, unsigned long addr, unsigned char val) {
-	/*if (addr < 0x40000) {
-		 ROM[addr] = val;
-	}*/
 	if (addr < 0x100000) {
 		RAM[addr] = val;
 	}
@@ -54,9 +50,6 @@ void DevEmu_Write8(void* ext, unsigned long addr, unsigned char val) {
 	}
 }
 void DevEmu_Write16(void* ext, unsigned long addr, unsigned short val) {
-	/*if (addr < 0x40000) {
-		ROM[addr] = val;
-	}*/
 	if (addr < 0x100000) {
 		RAM[addr] = val;
 	}
@@ -65,9 +58,6 @@ void DevEmu_Write16(void* ext, unsigned long addr, unsigned short val) {
 	}
 }
 void DevEmu_Write32(void* ext, unsigned long addr, unsigned long val) {
-	/*if (addr < 0x40000) {
-		ROM[addr] = val;
-	}*/
 	if (addr < 0x100000) {
 		RAM[addr] = val;
 	}
@@ -77,7 +67,7 @@ void DevEmu_Write32(void* ext, unsigned long addr, unsigned long val) {
 }
 
 void DevEmu_Reset(void* ext, unsigned val) {
-	//e68_set_pc_prefetch(m68kCPU, 0x0000000);
+	
 	SDL_LogVerbose(SDL_LOG_CATEGORY_APPLICATION, "val:%u\n", val);
 }
 int DevEmu_Hook(void* ext, unsigned val) {
