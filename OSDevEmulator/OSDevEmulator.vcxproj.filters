@@ -32,9 +32,6 @@
     <ClInclude Include="DevScreen.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="internal.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="DevDevice.h">
       <Filter>Header Files</Filter>
     </ClInclude>

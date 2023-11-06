@@ -141,7 +141,6 @@
     <ClInclude Include="DevEmulator.h" />
     <ClInclude Include="DevDevice.h" />
     <ClInclude Include="DevScreen.h" />
-    <ClInclude Include="internal.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
