@@ -10,7 +10,6 @@ extern char VRAM[2048 * 1024];
 #endif
 lua_State* Emu_LuaState;
 extern luaL_Reg MemoryMapLib[];
-const char* test[] = {"hello.","1 : my"};
 #ifdef USE_SCRIPT_FOR_DEV_EMU
 int DevEmu_PrintLog(lua_State* L) {
 	SDL_Log(lua_tostring(L, 1));
