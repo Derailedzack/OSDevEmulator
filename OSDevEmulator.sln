@@ -5,8 +5,6 @@ VisualStudioVersion = 17.2.32519.379
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "OSDevEmulator", "OSDevEmulator\OSDevEmulator.vcxproj", "{69E09793-A165-4209-89D9-02C8EAED26A6}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "LuaDevEmu_Devices", "LuaDevEmu_Devices\LuaDevEmu_Devices.vcxproj", "{F09A2C47-D8D0-47CC-ABCF-69DADC5E30DF}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -23,14 +21,6 @@ Global
 		{69E09793-A165-4209-89D9-02C8EAED26A6}.Release|x64.Build.0 = Release|x64
 		{69E09793-A165-4209-89D9-02C8EAED26A6}.Release|x86.ActiveCfg = Release|Win32
 		{69E09793-A165-4209-89D9-02C8EAED26A6}.Release|x86.Build.0 = Release|Win32
-		{F09A2C47-D8D0-47CC-ABCF-69DADC5E30DF}.Debug|x64.ActiveCfg = Debug|x64
-		{F09A2C47-D8D0-47CC-ABCF-69DADC5E30DF}.Debug|x64.Build.0 = Debug|x64
-		{F09A2C47-D8D0-47CC-ABCF-69DADC5E30DF}.Debug|x86.ActiveCfg = Debug|Win32
-		{F09A2C47-D8D0-47CC-ABCF-69DADC5E30DF}.Debug|x86.Build.0 = Debug|Win32
-		{F09A2C47-D8D0-47CC-ABCF-69DADC5E30DF}.Release|x64.ActiveCfg = Release|x64
-		{F09A2C47-D8D0-47CC-ABCF-69DADC5E30DF}.Release|x64.Build.0 = Release|x64
-		{F09A2C47-D8D0-47CC-ABCF-69DADC5E30DF}.Release|x86.ActiveCfg = Release|Win32
-		{F09A2C47-D8D0-47CC-ABCF-69DADC5E30DF}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
