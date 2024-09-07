@@ -1,10 +1,38 @@
 #include"DevEmulator.h"
 #include"DevScreen.h"
+#include"lualib.h"
+#include "lauxlib.h"
 
+#ifndef USE_SCRIPT_FOR_DEV_EMU
 char ROM[256 * 1024];
 char RAM[1024 * 1024];
 extern char VRAM[2048 * 1024];
+#endif
+lua_State* Emu_LuaState;
+extern luaL_Reg MemoryMapLib[];
+const char* test[] = {"hello.","1 : my"};
+#ifdef USE_SCRIPT_FOR_DEV_EMU
+int DevEmu_PrintLog(lua_State* L) {
+	SDL_Log(lua_tostring(L, 1));
+}
+void DevEmu_InitLua(const char* script_path) {
+	Emu_LuaState = luaL_newstate();
+	if (Emu_LuaState == NULL) {
+		printf("Lua failed to allocate a lua state! ERRNO:%i\n", errno);
+	}
+	//luaL_register(Emu_LuaState, "MemoryMap", MemoryMapLib);
+	luaL_openlibs(Emu_LuaState);
+	if (luaL_dofile(Emu_LuaState, script_path) == 1) {
+		printf("%s\n", lua_tostring(Emu_LuaState, -1));
+		//return 0x02;
+	}
+	//lua_register(, "PrintTest", DevEmu_PrintLog);
+	
+	//luaopen_base(Emu_LuaState);
 
+
+}
+#else
 unsigned char DevEmu_Read8(void* ext, unsigned long addr) {
 	if (addr < 0x40000) {
 		return ROM[addr];
@@ -84,8 +112,9 @@ void DevEmu_LogException(void* ext, unsigned tn) {
 	SDL_LogError(SDL_LOG_CATEGORY_APPLICATION, "tn:%u", tn);
 }
 void DevEmu_Init(CPU_TYPE m68k_type) {
-
-	
-	DevScr_CreateDisplay(640, 480);
+	//LoadDeviceFromSharedObject("",false);
+	//DevEmu_InitLua("");
+	DevScr_CreateDisplay(800, 600);
 	DevScr_BeginRenderLoop();
 }
+#endif

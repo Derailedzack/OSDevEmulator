@@ -104,13 +104,14 @@
       <SDLCheck>false</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)deps\SDL2\include\;$(SolutionDir)deps\GL\include\glad;$(SolutionDir)deps\GL\include\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)deps\SDL2\include\;$(SolutionDir)deps\GL\include\glad;$(SolutionDir)deps\GL\include\;$(SolutionDir)deps\LUA\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <CallingConvention>StdCall</CallingConvention>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(SolutionDir)deps\SDL2\lib\x$(PlatformArchitecture);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>SDL2.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)deps\SDL2\lib\x$(PlatformArchitecture);$(SolutionDir)deps\LUA\lib\x$(PlatformArchitecture);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>SDL2.lib;lua51-Debug.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -130,17 +131,23 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="DevDevice.c" />
     <ClCompile Include="DevEmulator.c" />
     <ClCompile Include="DevScreen.c" />
     <ClCompile Include="glad.c" />
+    <ClCompile Include="LuaMemoryMap.c" />
     <ClCompile Include="Main.c">
       <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">%(SolutionDir)deps/SDL2/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="DevEmulator.h" />
+    <ClInclude Include="Config.h" />
     <ClInclude Include="DevDevice.h" />
+    <ClInclude Include="DevEmulator.h" />
     <ClInclude Include="DevScreen.h" />
+    <ClInclude Include="LuaMemoryMap.h" />
+    <ClInclude Include="Sprite-0001.h" />
+    <ClInclude Include="VRAM_TEST.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

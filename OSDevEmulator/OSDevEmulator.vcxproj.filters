@@ -27,15 +27,33 @@
     <ClCompile Include="glad.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="DevDevice.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="LuaMemoryMap.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DevScreen.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="DevEmulator.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="DevDevice.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="DevEmulator.h">
+    <ClInclude Include="Sprite-0001.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="VRAM_TEST.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="LuaMemoryMap.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Config.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
