@@ -5,11 +5,12 @@
 
 bool ShouldUseGL = false;
 bool RenderLoop = true;
+
 SDL_Window* SDLWindow;
 SDL_Renderer* SDLRenderer;
 SDL_Event SDLEvent;
 SDL_GLContext* SDLContext;
-//SDL_Surface* SDLScrn;
+SDL_Surface * SDLScrn;
 SDL_Texture* SDLScrnTexture;
 int SDLRenderComboVal;
 extern unsigned long m68kClk;
@@ -24,7 +25,27 @@ float VRAM_Trans_y;
 void* SDL_Pixels;
 int pitch = 0;
 //SDL_Texture* VRAM_Tex;
+SDL_RWops* vram_in_file;
+SDL_RWops* vram_out_file;
+void DevScr_EventHook(void* userdata, SDL_Event* event) {
+	if (event->type == SDL_KEYDOWN) {
+		switch (event->key.keysym.sym) {
+		case SDLK_p:
+			vram_in_file = SDL_RWFromConstMem(VRAM_TEST, sizeof(VRAM_TEST));
+			//SDL_AddTimer(20, DevScr_Timer,NULL);
+			SDL_RWread(vram_in_file, VRAM, sizeof(VRAM), 1);
+			SDL_RWclose(vram_in_file);
+			break;
+		case SDLK_d:
+			vram_out_file = SDL_RWFromFile("VRAM_OUT.data", "w");
+			SDL_RWwrite(vram_out_file, VRAM, sizeof(VRAM), 1);
+			SDL_RWclose(vram_out_file);
+			break;
+		}
+	}
+}
 void DevScr_Init() {
+
 	
 	if (ShouldUseGL) {
 		//glGenTextures(1, &scr_tex_id);
@@ -38,7 +59,8 @@ void DevScr_Init() {
 		}
 	}
 
-	
+
+
 	
 	
 }
@@ -62,6 +84,9 @@ int DevScr_WriteToDeviceLua(lua_State* L) {
 
 }
 #endif
+
+
+
 void DevScr_DrawVRAM() {
 	float tex_w = 0;
 	float tex_h = 0;
@@ -75,18 +100,25 @@ void DevScr_DrawVRAM() {
 	else
 	{
 		//SDL_ConvertPixels(800,600,)
-		if (SDL_LockTexture(SDLScrnTexture, NULL, VRAM, &pitch) != 0) {
+		if (SDL_LockTextureToSurface(SDLScrnTexture, NULL, &SDLScrn) != 0) {
 			SDL_Log("SDL_Error:%s\n", SDL_GetError());
 		}
-
+		SDLScrn->pixels = VRAM;
+		//SDL_Delay(32);
+		//So it turns if VRAM is written to after the texture is updated garbage is added to 
 		SDL_UnlockTexture(SDLScrnTexture);
-
-		if (SDL_UpdateTexture(SDLScrnTexture, NULL, VRAM, pitch) != 0) {
+		//DevScr_UpdateVRAM();
+	//	
+		//SDL_SetRenderTarget(SDLRenderer, SDLScrnTexture);
+		//SDL_SetRenderTarget(SDLRenderer, NULL);
+		if (SDL_UpdateTexture(SDLScrnTexture, NULL, SDLScrn->pixels, SDLScrn->pitch) != 0) {
 			SDL_Log("Failed to update texture! SDL_Error:%s\n", SDL_GetError());
 		}
 
-		//SDL_memcpy(VRAM, &SDLScrnTexture, sizeof(VRAM));
-		SDL_RenderCopy(SDLRenderer, SDLScrnTexture, NULL, NULL);
+		//
+		if (SDL_RenderCopy(SDLRenderer, SDLScrnTexture, NULL, NULL) != 0) {
+			SDL_Log("Failed to update texture! SDL_Error:%s\n", SDL_GetError());
+		}
 	}
 }
 void DevScr_CreateDisplay(int width, int height) {
@@ -122,13 +154,13 @@ void DevScr_CreateDisplay(int width, int height) {
 			}
 
 			else {
-			
+				
 				//SDL_SetHint(SDL_HINT_RENDER_BATCHING, "1");
 			}
-
-			SDL_SetHint(SDL_HINT_RENDER_DRIVER, "direct3d11");
+			SDL_AddEventWatch(DevScr_EventHook, NULL);
+		//	SDL_SetHint(SDL_HINT_RENDER_DRIVER, "direct3d11");
 			DevScr_Init();
-			
+	
 
 			
 		}
@@ -142,7 +174,7 @@ void DevScr_BeginRenderLoop() {
 	else {
 
 		while (RenderLoop == true) {
-	
+			SDL_PollEvent(&SDLEvent);
 			SDL_RenderClear(SDLRenderer);
 			
 
@@ -153,7 +185,7 @@ void DevScr_BeginRenderLoop() {
 			//
 	
 
-			SDL_PollEvent(&SDLEvent);
+			
 			if (SDLEvent.type == SDL_QUIT) {
 				RenderLoop = false;
 
@@ -166,46 +198,8 @@ void DevScr_BeginRenderLoop() {
 
 				}
 			}
-
-			if (SDLEvent.type == SDL_KEYDOWN) {
-				if (SDLEvent.key.keysym.sym == SDLK_d) {
-					SDL_RWops* vram_out_file = SDL_RWFromFile("VRAM_OUT.data", "w");
-					//SDL_Log("VRAM_Ptr:%p", &VRAM);
-					SDL_RWwrite(vram_out_file, VRAM, sizeof(VRAM), 1);
-					SDL_RWclose(vram_out_file);
-				}
-				if (SDLEvent.key.keysym.sym == SDLK_p) {
-					SDL_RWops* vram_in_file = SDL_RWFromFile("VRAM_IN.data", "r");
-
-					SDL_RWread(vram_in_file, VRAM, sizeof(VRAM), 1);
-
-					SDL_RWclose(vram_in_file);
-				}
-				if (SDLEvent.key.keysym.sym == SDLK_RIGHT) {
-					VRAM_x += 0.005f;
-
-				}
-				if (SDLEvent.key.keysym.sym == SDLK_LEFT) {
-					VRAM_x -= 0.005f;
-
-				}
-				if (SDLEvent.key.keysym.sym == SDLK_UP) {
-					VRAM_y += 0.005f;
-
-				}
-				if (SDLEvent.key.keysym.sym == SDLK_DOWN) {
-					VRAM_y -= 0.005f;
-
-				}
-				if (SDLEvent.key.keysym.sym == SDLK_0) {
-					VRAM_Trans_x += 90.0f;
-
-				}
-				if (SDLEvent.key.keysym.sym == SDLK_1) {
-					VRAM_Trans_x -= 90.0f;
-
-				}
-			}
+			
+			
 		}
 	}
 
@@ -221,11 +215,7 @@ void DevScr_GLBeginRenderLoop() {
 		
 	
 		SDL_PollEvent(&SDLEvent);
-		if (SDLEvent.type == SDL_QUIT) {
-			RenderLoop = false;
-
-		}
-		
+	
 	
 		
 		
