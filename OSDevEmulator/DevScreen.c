@@ -117,7 +117,7 @@ void DevScr_DrawVRAM() {
 
 		//
 		if (SDL_RenderCopy(SDLRenderer, SDLScrnTexture, NULL, NULL) != 0) {
-			SDL_Log("Failed to update texture! SDL_Error:%s\n", SDL_GetError());
+			SDL_Log("Failed to copy texture! SDL_Error:%s\n", SDL_GetError());
 		}
 	}
 }
