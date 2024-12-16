@@ -1,13 +1,13 @@
 #pragma once
 //Set unused functions to NULL to disable them
 typedef void (*Init_Func)();
-typedef unsigned char (*Read_8_Func)(unsigned long addr);
-typedef unsigned short (*Read_16_Func)(unsigned long addr);
-typedef unsigned long (*Read_32_Func)(unsigned long addr);
+typedef unsigned char (*Read_8_Func)(unsigned long addr); //ReadByte
+typedef unsigned short (*Read_16_Func)(unsigned long addr); //ReadWord
+typedef unsigned long (*Read_32_Func)(unsigned long addr); //ReadDoubleWord
 
-typedef void (*Write_8_Func)(unsigned long addr, unsigned char val);
-typedef void (*Write_16_Func)(unsigned long addr, unsigned short val);
-typedef void (*Write_32_Func)(unsigned long addr, unsigned long val);
+typedef void (*Write_8_Func)(unsigned long addr, unsigned char val); //WriteByte
+typedef void (*Write_16_Func)(unsigned long addr, unsigned short val); //WriteWord
+typedef void (*Write_32_Func)(unsigned long addr, unsigned long val); //WriteDoubleWord
 typedef struct DevDevice {
 	const char* name;
 	unsigned long base_addr;
