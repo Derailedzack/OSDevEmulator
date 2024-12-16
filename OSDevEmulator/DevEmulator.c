@@ -8,9 +8,11 @@ char ROM[256 * 1024];
 char RAM[1024 * 1024];
 extern char VRAM[2048 * 1024];
 #endif
+
+#ifdef USE_SCRIPT_FOR_DEV_EMU
 lua_State* Emu_LuaState;
 extern luaL_Reg MemoryMapLib[];
-#ifdef USE_SCRIPT_FOR_DEV_EMU
+extern luaL_Reg DevScr_Lib[];
 int DevEmu_PrintLog(lua_State* L) {
 	SDL_Log(lua_tostring(L, 1));
 }
@@ -19,7 +21,8 @@ void DevEmu_InitLua(const char* script_path) {
 	if (Emu_LuaState == NULL) {
 		printf("Lua failed to allocate a lua state! ERRNO:%i\n", errno);
 	}
-	//luaL_register(Emu_LuaState, "MemoryMap", MemoryMapLib);
+	luaL_register(Emu_LuaState, "MemoryMap", MemoryMapLib);
+	luaL_register(Emu_LuaState, "DevScreen",DevScr_Lib);
 	luaL_openlibs(Emu_LuaState);
 	if (luaL_dofile(Emu_LuaState, script_path) == 1) {
 		printf("%s\n", lua_tostring(Emu_LuaState, -1));
@@ -32,6 +35,7 @@ void DevEmu_InitLua(const char* script_path) {
 
 }
 #else
+
 unsigned char DevEmu_Read8(void* ext, unsigned long addr) {
 	if (addr < 0x40000) {
 		return ROM[addr];
