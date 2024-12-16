@@ -2,10 +2,22 @@
 #include"DevScreen.h"
 #include"glad.h"
 #include"VRAM_TEST.h"
-
+//TODO: Clean this file up. There's too much crap here
 bool ShouldUseGL = false;
 bool RenderLoop = true;
-
+typedef enum DevVidMode {
+	NONE,
+	BITMAP_800x600_8BPP, //I'm aware that x can also be used as a var but we can't use * as that creates a syntax error. As the star gets treated as multipulication
+	TEXT_MODE,
+	TILE_MODE
+}DevVidMode;
+typedef struct DevScreenTileRegs {
+	uint16_t Tile_Width;
+	uint16_t Tile_Height;
+	uint16_t Tile_OffX;
+	uint16_t Tile_OffY;
+	uint16_t Tile_Num;
+}DevScreenTileRegs;
 SDL_Window* SDLWindow;
 SDL_Renderer* SDLRenderer;
 SDL_Event SDLEvent;
@@ -23,6 +35,7 @@ float VRAM_y;
 float VRAM_Trans_x;
 float VRAM_Trans_y;
 void* SDL_Pixels;
+DevVidMode Scr_Mode;
 int pitch = 0;
 //SDL_Texture* VRAM_Tex;
 SDL_RWops* vram_in_file;
@@ -41,6 +54,14 @@ void DevScr_EventHook(void* userdata, SDL_Event* event) {
 			SDL_RWwrite(vram_out_file, VRAM, sizeof(VRAM), 1);
 			SDL_RWclose(vram_out_file);
 			break;
+		case SDLK_s:
+			//int** i = rand();
+			//vram_in_file = SDL_RWFromConstMem(VRAM_TEST, sizeof(VRAM_TEST));
+			//for (int i = 0; i < 2048*1024; i++) {
+				//VRAM[i] = rand();
+		//	}
+			//SDL_memcpy(VRAM, &SDLRenderer, sizeof(VRAM));
+			break;
 		}
 	}
 }
@@ -56,7 +77,9 @@ void DevScr_Init() {
 		SDLScrnTexture = SDL_CreateTexture(SDLRenderer, SDL_PIXELFORMAT_RGBA32, SDL_TEXTUREACCESS_STREAMING, 800, 600);
 		if (SDLScrnTexture == NULL) {
 			SDL_Log("SDL_Error(Texture Creation):%s", SDL_GetError());
+			Scr_Mode = NONE;
 		}
+		Scr_Mode = BITMAP_800x600_8BPP;
 	}
 
 
@@ -64,6 +87,7 @@ void DevScr_Init() {
 	
 	
 }
+
 #ifdef USE_SCRIPT_FOR_DEV_EMU
 const luaL_Reg DevScr_Lib[] = {
 	"Init",DevScr_InitDeviceLua,
@@ -71,6 +95,7 @@ const luaL_Reg DevScr_Lib[] = {
 	"Read",DevScr_ReadFromDeviceLua,
 	NULL,NULL
 };
+extern lua_State* Emu_LuaState;
 int DevScr_InitDeviceLua(lua_State* L) {
 	lua_setglobal(L, "DevEmu_MainLoop");
 
@@ -78,9 +103,31 @@ int DevScr_InitDeviceLua(lua_State* L) {
 	return 0;
 }
 int DevScr_ReadFromDeviceLua(lua_State* L) {
+	unsigned int VRAM_index = lua_tointeger(L, 1);
 
+	if (VRAM_index >= 2048 * 1024 ) {
+		lua_pushstring(L, "VRAM_INDEX is invaild!");
+		lua_error(L);
+		return 0;
+	}
+	else {
+		lua_pushinteger(L, VRAM[VRAM_index]);
+		return 1;
+	}
+	
 }
 int DevScr_WriteToDeviceLua(lua_State* L) {
+	unsigned int VRAM_index = lua_tointeger(L, 1);
+	unsigned char VRAM_val = lua_tointeger(L, 2);
+	if (VRAM_index >= 2048 * 1024) {
+		lua_pushstring(L, "VRAM_INDEX is invaild!");
+		lua_error(L);
+		return 0;
+	}
+	else {
+		lua_pushinteger(L, VRAM[VRAM_index]);
+		return 1;
+	}
 
 }
 #endif
@@ -92,10 +139,10 @@ void DevScr_DrawVRAM() {
 	float tex_h = 0;
 
 
-	if (ShouldUseGL) {
+	if (ShouldUseGL) { //So this doesn't work as it's incomplete
 		glBindTexture(GL_TEXTURE_2D, scr_tex_id);
 		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, 800, 600, 0, GL_RGBA, GL_UNSIGNED_BYTE, VRAM);
-		glGenerateMipmap(GL_TEXTURE_2D);
+		glGenerateMipmap(GL_TEXTURE_2D); 
 	}
 	else
 	{
@@ -134,13 +181,13 @@ void DevScr_CreateDisplay(int width, int height) {
 		SDLRenderComboVal = SDL_CreateWindowAndRenderer(width, height, SDL_WINDOW_RESIZABLE, &SDLWindow, &SDLRenderer);
 	}
 	
-
+		
 		if (SDLRenderComboVal == -1) {
 			SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, "SDL Fatal Error", SDL_GetError(), NULL);
 			RenderLoop = false;
 		}
 		else {
-
+			SDL_SetWindowTitle(SDLWindow, "DevScreen");
 			if (ShouldUseGL) {
 				SDLContext = SDL_GL_CreateContext(SDLWindow);
 				if (SDLContext == NULL) {
@@ -166,6 +213,7 @@ void DevScr_CreateDisplay(int width, int height) {
 		}
 	
 }
+extern void DevEmu_Write8(void* ext, unsigned long addr, unsigned char val);
 void DevScr_BeginRenderLoop() {
 
 	if (ShouldUseGL) {
@@ -175,9 +223,11 @@ void DevScr_BeginRenderLoop() {
 
 		while (RenderLoop == true) {
 			SDL_PollEvent(&SDLEvent);
+		
 			SDL_RenderClear(SDLRenderer);
-			
-
+#ifdef USE_SCRIPT_FOR_DEV_EMU
+			luaL_dostring(Emu_LuaState, "DevEmu_MainLoop()");
+#endif
 			DevScr_DrawVRAM();
 
 			
@@ -243,7 +293,6 @@ void DevScr_GLBeginRenderLoop() {
 			}
 			if (SDLEvent.key.keysym.sym == SDLK_RIGHT) {
 				VRAM_x += 0.005f;
-			
 			}
 			if (SDLEvent.key.keysym.sym == SDLK_LEFT) {
 				VRAM_x -= 0.005f;
