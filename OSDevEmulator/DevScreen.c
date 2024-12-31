@@ -30,10 +30,7 @@ unsigned int scr_tex_id;
 //extern char ROM[512*1024];
 unsigned char VRAM[2048 * 1024];
 //unsigned char ScrPixels[800 * 600 * 8];
-float VRAM_x;
-float VRAM_y;
-float VRAM_Trans_x;
-float VRAM_Trans_y;
+
 void* SDL_Pixels;
 DevVidMode Scr_Mode;
 int pitch = 0;
