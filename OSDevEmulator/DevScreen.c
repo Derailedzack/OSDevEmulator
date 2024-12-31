@@ -240,16 +240,6 @@ void DevScr_BeginRenderLoop() {
 				RenderLoop = false;
 
 			}
-
-			if (SDLEvent.type == SDL_WINDOWEVENT) {
-				if (SDLEvent.window.event == SDL_WINDOWEVENT_SIZE_CHANGED) {
-
-					//glViewport(0, 0, SDLEvent.window.data1, SDLEvent.window.data2);
-
-				}
-			}
-			
-			
 		}
 	}
 
@@ -262,13 +252,8 @@ void DevScr_GLBeginRenderLoop() {
 		
 		DevScr_DrawVRAM();
 		SDL_GL_SwapWindow(SDLWindow);
-		
-	
 		SDL_PollEvent(&SDLEvent);
-	
-	
-		
-		
+
 		if (SDLEvent.type == SDL_WINDOWEVENT) {
 			if (SDLEvent.window.event == SDL_WINDOWEVENT_SIZE_CHANGED) {
 
@@ -276,59 +261,5 @@ void DevScr_GLBeginRenderLoop() {
 
 			}
 		}
-		
-		if (SDLEvent.type == SDL_KEYDOWN) {
-			if (SDLEvent.key.keysym.sym == SDLK_d) {
-				SDL_RWops* vram_out_file =  SDL_RWFromFile("VRAM_OUT.data", "w");
-				//SDL_Log("VRAM_Ptr:%p", &VRAM);
-				SDL_RWwrite(vram_out_file, VRAM, sizeof(VRAM), 1);
-				SDL_RWclose(vram_out_file);
-			}
-			if (SDLEvent.key.keysym.sym == SDLK_p) {
-				SDL_RWops* vram_in_file = SDL_RWFromFile("VRAM_IN.data", "r");
-			
-				SDL_RWread(vram_in_file, VRAM, sizeof(VRAM), 1);
-
-				SDL_RWclose(vram_in_file);
-			}
-			if (SDLEvent.key.keysym.sym == SDLK_RIGHT) {
-				VRAM_x += 0.005f;
-			}
-			if (SDLEvent.key.keysym.sym == SDLK_LEFT) {
-				VRAM_x -= 0.005f;
-
-			}
-			if (SDLEvent.key.keysym.sym == SDLK_UP) {
-				VRAM_y += 0.005f;
-
-			}
-			if (SDLEvent.key.keysym.sym == SDLK_DOWN) {
-				VRAM_y -= 0.005f;
-
-			}
-			if (SDLEvent.key.keysym.sym == SDLK_0) {
-				VRAM_Trans_x += 90.0f;
-
-			}
-			if (SDLEvent.key.keysym.sym == SDLK_1) {
-				VRAM_Trans_x -= 90.0f;
-
-			}
-
-			if (SDLEvent.key.keysym.sym == SDLK_2) {
-				VRAM_Trans_y += 0.005f;
-
-			}
-			if (SDLEvent.key.keysym.sym == SDLK_3) {
-				VRAM_Trans_y -= 0.005f;
-
-			}
-
-
-
-			
-		}
-
-		
 	}
 }
