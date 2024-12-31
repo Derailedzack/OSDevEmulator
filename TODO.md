@@ -7,4 +7,4 @@
   4. [x]  Commit working DevDisplay
   5. [x]  Readd OpenGL support into the DevDisplay
   6. [ ]  Implement various display modes (Text mode(s),Bitmap mode(s) at varrying color depths and resolutions and Tile mode(s)
-  6. [ ]  Fix the Release config (Add C includes and libraries as well the library for said libraries)
+  6. [ ]  Fix the Release config (Add C includes and libraries as well the library path for said libraries)
