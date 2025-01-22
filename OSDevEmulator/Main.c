@@ -6,6 +6,6 @@ int main() {
 	DevEmu_InitLua("init.lua");
 #else
 
-	DevEmu_Init(M68000);
+	DevEmu_Init(M68000,2048*1024);
 #endif
 }
