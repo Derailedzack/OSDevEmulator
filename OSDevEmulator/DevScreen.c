@@ -105,11 +105,13 @@ void DevScr_Init(DevVidMode screen_mode) {
 				SDL_Log("SDL_Error(Texture Creation):%s", SDL_GetError());
 				GPU_Registers->Screen_Mode = NONE;
 			}
-			VRAM = malloc(2048 * 1024);
+			//VRAM = malloc(2048 * 1024);
+			VRAM = calloc(4096 * 1024, 1);
 			if (VRAM == NULL) {
 				SDL_Log("Failed to allocate VRAM! Errno:%i\n", errno);
 				exit(-3);
 			}
+			//printf("VRAM:%x\n", VRAM[1]);
 			GPU_Registers->Screen_Mode = BITMAP_800x600_8BPP;
 		}
 
