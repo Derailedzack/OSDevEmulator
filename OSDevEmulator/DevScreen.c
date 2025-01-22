@@ -75,7 +75,7 @@ void DevScr_EventHook(void* userdata, SDL_Event* event) {
 		}
 	}
 }
-void DevScr_Init(DevVidMode screen_mode) {
+void DevScr_Init(DevVidMode screen_mode, unsigned long vram_size) {
 	GPU_Registers = malloc(sizeof(DevScreenRegs));
 	if (GPU_Registers == NULL) {
 		SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, "DevScreen Fatal Error", strerror(errno), NULL);
@@ -105,8 +105,9 @@ void DevScr_Init(DevVidMode screen_mode) {
 				SDL_Log("SDL_Error(Texture Creation):%s", SDL_GetError());
 				GPU_Registers->Screen_Mode = NONE;
 			}
+			GPU_Registers->Screen_VRAMSize = vram_size;
 			//VRAM = malloc(2048 * 1024);
-			VRAM = calloc(4096 * 1024, 1);
+			VRAM = calloc(GPU_Registers->Screen_VRAMSize, 1);
 			if (VRAM == NULL) {
 				SDL_Log("Failed to allocate VRAM! Errno:%i\n", errno);
 				exit(-3);
@@ -203,7 +204,7 @@ void DevScr_DrawVRAM() {
 
 	}
 }
-void DevScr_CreateDisplay(int width, int height) {
+void DevScr_CreateDisplay(int width, int height, unsigned long vram_size) {
 	if (SDL_Init(SDL_INIT_EVERYTHING) != 0) {
 		SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, "SDL Fatal Error", SDL_GetError(), NULL);
 		RenderLoop = false;
@@ -241,7 +242,7 @@ void DevScr_CreateDisplay(int width, int height) {
 			}
 			SDL_AddEventWatch(DevScr_EventHook, NULL);
 		//	SDL_SetHint(SDL_HINT_RENDER_DRIVER, "direct3d11");
-			DevScr_Init(BITMAP_800x600_8BPP);
+			DevScr_Init(BITMAP_800x600_8BPP, vram_size);
 	
 
 			
