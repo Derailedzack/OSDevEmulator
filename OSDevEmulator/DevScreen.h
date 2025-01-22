@@ -10,7 +10,7 @@ extern bool RenderLoop;
 extern SDL_Window* SDLWindow;
 extern SDL_Renderer* SDLRenderer;
 
-void DevScr_CreateDisplay(int width,int height);
+void DevScr_CreateDisplay(int width,int height,unsigned long vram_size);
 void DevScr_GLBeginRenderLoop();
 void DevScr_BeginRenderLoop();
 #ifdef USE_SCRIPT_FOR_DEV_EMU

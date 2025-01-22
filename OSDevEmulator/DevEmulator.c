@@ -117,7 +117,7 @@ void DevEmu_LogException(void* ext, unsigned tn) {
 void DevEmu_Init(CPU_TYPE m68k_type) {
 	//LoadDeviceFromSharedObject("",false);
 	//DevEmu_InitLua("");
-	DevScr_CreateDisplay(800, 600);
+	DevScr_CreateDisplay(800, 600,2048*1024);
 	DevScr_BeginRenderLoop();
 }
 #endif

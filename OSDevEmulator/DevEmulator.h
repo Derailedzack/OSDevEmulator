@@ -18,3 +18,4 @@ typedef struct CPU_ModuleInfoRAW {
 CPU_TYPE* CurrentCpuType;
 int DevEmu_PrintLog(lua_State* L);
 void DevEmu_Init(CPU_TYPE m68k_type);
+void DevEmu_InitLua(const char* script_path);
