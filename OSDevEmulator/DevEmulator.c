@@ -117,6 +117,10 @@ void DevEmu_LogException(void* ext, unsigned tn) {
 void DevEmu_Init(CPU_TYPE m68k_type, unsigned long vram_size) {
 	//LoadDeviceFromSharedObject("",false);
 	//DevEmu_InitLua("");
+	if (vram_size == NULL) {
+		printf("vram_size is NULL!\n");
+		return;
+	}
 	DevScr_CreateDisplay(800, 600, vram_size);
 	DevScr_BeginRenderLoop();
 }
