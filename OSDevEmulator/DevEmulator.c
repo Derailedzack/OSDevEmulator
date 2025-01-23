@@ -6,7 +6,7 @@
 #ifndef USE_SCRIPT_FOR_DEV_EMU
 char ROM[256 * 1024];
 char RAM[1024 * 1024];
-extern char VRAM[2048 * 1024];
+extern char* VRAM;
 #endif
 
 #ifdef USE_SCRIPT_FOR_DEV_EMU
@@ -93,7 +93,7 @@ void DevEmu_Write32(void* ext, unsigned long addr, unsigned long val) {
 		RAM[addr] = val;
 	}
 	if (addr < 0x240000) {
-		VRAM[addr] = val;
+	 	VRAM[addr] = val;
 	}
 }
 
