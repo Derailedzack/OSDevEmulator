@@ -37,6 +37,7 @@ SDL_Texture* SDLScrnTexture;
 DevScreenRegs* GPU_Registers;
 int SDLRenderComboVal;
 extern unsigned long m68kClk;
+extern lua_State* Emu_LuaState;
 unsigned int scr_tex_id;
 //extern char ROM[512*1024];
 unsigned char* TilesGFX_RAM;
@@ -132,14 +133,14 @@ const luaL_Reg DevScr_Lib[] = {
 extern lua_State* Emu_LuaState;
 int DevScr_InitDeviceLua(lua_State* L) {
 	lua_setglobal(L, "DevEmu_MainLoop");
-
-	DevScr_CreateDisplay(lua_tointeger(L,3), lua_tointeger(L,2));
+	printf("Width:%i\nHeight:%i\nVRAM Size:%i\n", lua_tointeger(L, 1), lua_tointeger(L, 2), lua_tointeger(L, 0));
+	DevScr_CreateDisplay(lua_tointeger(L,1), lua_tointeger(L,2),lua_tointeger(L,0));
 	return 0;
 }
 int DevScr_ReadFromDeviceLua(lua_State* L) {
 	unsigned int VRAM_index = lua_tointeger(L, 1);
 
-	if (VRAM_index >= 2048 * 1024 ) {
+	if (VRAM_index >= GPU_Registers->Screen_VRAMSize) {
 		lua_pushstring(L, "VRAM_INDEX is invaild!");
 		lua_error(L);
 		return 0;
@@ -243,8 +244,10 @@ void DevScr_CreateDisplay(int width, int height, unsigned long vram_size) {
 			SDL_AddEventWatch(DevScr_EventHook, NULL);
 		//	SDL_SetHint(SDL_HINT_RENDER_DRIVER, "direct3d11");
 			DevScr_Init(BITMAP_800x600_8BPP, vram_size);
-	
-
+#ifdef USE_SCRIPT_FOR_DEV_EMU
+			
+			DevScr_BeginRenderLoop();
+#endif
 			
 		}
 	
@@ -262,7 +265,10 @@ void DevScr_BeginRenderLoop() {
 		
 			SDL_RenderClear(SDLRenderer);
 #ifdef USE_SCRIPT_FOR_DEV_EMU
-			luaL_dostring(Emu_LuaState, "DevEmu_MainLoop()");
+	
+			if (luaL_dostring(Emu_LuaState, "DevEmu.MainLoop()") == 1) {
+				printf("%s\n", lua_tostring(Emu_LuaState, -1));
+			}
 #endif
 			DevScr_DrawVRAM();
 
