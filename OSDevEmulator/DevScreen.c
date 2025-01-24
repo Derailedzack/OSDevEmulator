@@ -5,7 +5,7 @@
 #include <string.h>
 //TODO: Clean this file up. There's too much crap here
 bool ShouldUseGL = false;
-bool RenderLoop = true;
+extern bool RenderLoop;
 typedef enum DevVidMode {
 	NONE,
 	BITMAP_800x600_8BPP, //I'm aware that x can also be used as a var but we can't use * as that creates a syntax error. As the star gets treated as multipulication
@@ -259,8 +259,6 @@ void DevScr_BeginRenderLoop() {
 		DevScr_GLBeginRenderLoop();
 	}
 	else {
-
-		while (RenderLoop == true) {
 			SDL_PollEvent(&SDLEvent);
 		
 			SDL_RenderClear(SDLRenderer);
@@ -283,13 +281,10 @@ void DevScr_BeginRenderLoop() {
 
 			}
 		}
-	}
 
 }
 
 void DevScr_GLBeginRenderLoop() {
-	while (RenderLoop == true) {
-		
 		glClear(GL_COLOR_BUFFER_BIT | GL_STENCIL_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		
 		DevScr_DrawVRAM();
@@ -303,5 +298,4 @@ void DevScr_GLBeginRenderLoop() {
 
 			}
 		}
-	}
 }
