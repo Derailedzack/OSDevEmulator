@@ -9,4 +9,4 @@
   6. [ ]  Implement various display modes (Text mode(s),Bitmap mode(s) at varrying color depths and resolutions and Tile mode(s)
   7. [ ]  Fix the Release config (Add C includes and libraries as well the library path for said libraries
   8. [ ]  Implement shader complication and linking into the DevScreen
-  
+  9. [ ] Decouple main loop from the DevScreen
