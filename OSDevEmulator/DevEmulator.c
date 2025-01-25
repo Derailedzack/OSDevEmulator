@@ -6,9 +6,10 @@
 #ifndef USE_SCRIPT_FOR_DEV_EMU
 char ROM[256 * 1024];
 char RAM[1024 * 1024];
-extern char VRAM[2048 * 1024];
+extern char* VRAM;
 #endif
-
+bool RenderLoop = true;
+DevEmu_MainLoop_Func* MainLoopPtr;
 #ifdef USE_SCRIPT_FOR_DEV_EMU
 lua_State* Emu_LuaState;
 extern luaL_Reg MemoryMapLib[];
@@ -35,7 +36,11 @@ void DevEmu_InitLua(const char* script_path) {
 
 }
 #else
-
+void DevEmu_MainLoop() {
+	while (RenderLoop) {
+		DevScr_BeginRenderLoop();
+	}
+}
 unsigned char DevEmu_Read8(void* ext, unsigned long addr) {
 	if (addr < 0x40000) {
 		return ROM[addr];
@@ -93,7 +98,7 @@ void DevEmu_Write32(void* ext, unsigned long addr, unsigned long val) {
 		RAM[addr] = val;
 	}
 	if (addr < 0x240000) {
-		VRAM[addr] = val;
+	 	VRAM[addr] = val;
 	}
 }
 
@@ -114,10 +119,17 @@ void DevEmu_Trap(void* ext, unsigned n) {
 void DevEmu_LogException(void* ext, unsigned tn) {
 	SDL_LogError(SDL_LOG_CATEGORY_APPLICATION, "tn:%u", tn);
 }
-void DevEmu_Init(CPU_TYPE m68k_type) {
+void DevEmu_Init(CPU_TYPE m68k_type, unsigned long vram_size, DevEmu_MainLoop_Func* main_loop_func) {
 	//LoadDeviceFromSharedObject("",false);
 	//DevEmu_InitLua("");
-	DevScr_CreateDisplay(800, 600);
-	DevScr_BeginRenderLoop();
+	if (vram_size == NULL) {
+		printf("vram_size is NULL!\n");
+		return;
+	}
+	if (main_loop_func != NULL) {
+		MainLoopPtr = main_loop_func;
+	}
+	DevScr_CreateDisplay(800, 600, vram_size);
+	DevEmu_MainLoop();
 }
 #endif

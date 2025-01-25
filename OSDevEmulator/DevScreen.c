@@ -5,7 +5,7 @@
 #include <string.h>
 //TODO: Clean this file up. There's too much crap here
 bool ShouldUseGL = false;
-bool RenderLoop = true;
+extern bool RenderLoop;
 typedef enum DevVidMode {
 	NONE,
 	BITMAP_800x600_8BPP, //I'm aware that x can also be used as a var but we can't use * as that creates a syntax error. As the star gets treated as multipulication
@@ -37,6 +37,7 @@ SDL_Texture* SDLScrnTexture;
 DevScreenRegs* GPU_Registers;
 int SDLRenderComboVal;
 extern unsigned long m68kClk;
+extern lua_State* Emu_LuaState;
 unsigned int scr_tex_id;
 //extern char ROM[512*1024];
 unsigned char* TilesGFX_RAM;
@@ -75,7 +76,7 @@ void DevScr_EventHook(void* userdata, SDL_Event* event) {
 		}
 	}
 }
-void DevScr_Init(DevVidMode screen_mode) {
+void DevScr_Init(DevVidMode screen_mode, unsigned long vram_size) {
 	GPU_Registers = malloc(sizeof(DevScreenRegs));
 	if (GPU_Registers == NULL) {
 		SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, "DevScreen Fatal Error", strerror(errno), NULL);
@@ -105,11 +106,14 @@ void DevScr_Init(DevVidMode screen_mode) {
 				SDL_Log("SDL_Error(Texture Creation):%s", SDL_GetError());
 				GPU_Registers->Screen_Mode = NONE;
 			}
-			VRAM = malloc(2048 * 1024);
+			GPU_Registers->Screen_VRAMSize = vram_size;
+			//VRAM = malloc(2048 * 1024);
+			VRAM = calloc(GPU_Registers->Screen_VRAMSize, 1);
 			if (VRAM == NULL) {
 				SDL_Log("Failed to allocate VRAM! Errno:%i\n", errno);
 				exit(-3);
 			}
+			//printf("VRAM:%x\n", VRAM[1]);
 			GPU_Registers->Screen_Mode = BITMAP_800x600_8BPP;
 		}
 
@@ -129,14 +133,14 @@ const luaL_Reg DevScr_Lib[] = {
 extern lua_State* Emu_LuaState;
 int DevScr_InitDeviceLua(lua_State* L) {
 	lua_setglobal(L, "DevEmu_MainLoop");
-
-	DevScr_CreateDisplay(lua_tointeger(L,3), lua_tointeger(L,2));
+	printf("Width:%i\nHeight:%i\nVRAM Size:%i\n", lua_tointeger(L, 1), lua_tointeger(L, 2), lua_tointeger(L, 0));
+	DevScr_CreateDisplay(lua_tointeger(L,1), lua_tointeger(L,2),lua_tointeger(L,0));
 	return 0;
 }
 int DevScr_ReadFromDeviceLua(lua_State* L) {
 	unsigned int VRAM_index = lua_tointeger(L, 1);
 
-	if (VRAM_index >= 2048 * 1024 ) {
+	if (VRAM_index >= GPU_Registers->Screen_VRAMSize) {
 		lua_pushstring(L, "VRAM_INDEX is invaild!");
 		lua_error(L);
 		return 0;
@@ -201,7 +205,7 @@ void DevScr_DrawVRAM() {
 
 	}
 }
-void DevScr_CreateDisplay(int width, int height) {
+void DevScr_CreateDisplay(int width, int height, unsigned long vram_size) {
 	if (SDL_Init(SDL_INIT_EVERYTHING) != 0) {
 		SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, "SDL Fatal Error", SDL_GetError(), NULL);
 		RenderLoop = false;
@@ -239,9 +243,11 @@ void DevScr_CreateDisplay(int width, int height) {
 			}
 			SDL_AddEventWatch(DevScr_EventHook, NULL);
 		//	SDL_SetHint(SDL_HINT_RENDER_DRIVER, "direct3d11");
-			DevScr_Init(BITMAP_800x600_8BPP);
-	
-
+			DevScr_Init(BITMAP_800x600_8BPP, vram_size);
+#ifdef USE_SCRIPT_FOR_DEV_EMU
+			
+			DevScr_BeginRenderLoop();
+#endif
 			
 		}
 	
@@ -253,13 +259,14 @@ void DevScr_BeginRenderLoop() {
 		DevScr_GLBeginRenderLoop();
 	}
 	else {
-
-		while (RenderLoop == true) {
 			SDL_PollEvent(&SDLEvent);
 		
 			SDL_RenderClear(SDLRenderer);
 #ifdef USE_SCRIPT_FOR_DEV_EMU
-			luaL_dostring(Emu_LuaState, "DevEmu_MainLoop()");
+	
+			if (luaL_dostring(Emu_LuaState, "DevEmu.MainLoop()") == 1) {
+				printf("%s\n", lua_tostring(Emu_LuaState, -1));
+			}
 #endif
 			DevScr_DrawVRAM();
 
@@ -274,13 +281,10 @@ void DevScr_BeginRenderLoop() {
 
 			}
 		}
-	}
 
 }
 
 void DevScr_GLBeginRenderLoop() {
-	while (RenderLoop == true) {
-		
 		glClear(GL_COLOR_BUFFER_BIT | GL_STENCIL_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		
 		DevScr_DrawVRAM();
@@ -294,5 +298,4 @@ void DevScr_GLBeginRenderLoop() {
 
 			}
 		}
-	}
 }
