@@ -38,6 +38,9 @@ void DevEmu_InitLua(const char* script_path) {
 #else
 void DevEmu_MainLoop() {
 	while (RenderLoop) {
+		if (MainLoopPtr != NULL) {
+			(MainLoopPtr)();
+		}
 		DevScr_BeginRenderLoop();
 	}
 }
