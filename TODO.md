@@ -1,5 +1,7 @@
 # OSDevEmulator TODO List
-
+  1. [ ] Add support for using lua for custom machines
+# Lua TODO List
+  1. [ ] Rewrite libraries in pure lua where possible and makes sense instead of C
 # DevScreen TODO List
   1. [x]  Rewrite bitmap display to use a texture for rendering instead of glDrawpixel (1, 3, 4 and 5 have been done for sometime now)
   2. [ ]  Add premake support
