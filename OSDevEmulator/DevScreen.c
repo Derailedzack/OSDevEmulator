@@ -77,6 +77,11 @@ void DevScr_EventHook(void* userdata, SDL_Event* event) {
 	}
 }
 void DevScr_Init(DevVidMode screen_mode, unsigned long vram_size) {
+	if (vram_size == NULL) {
+		SDL_Log("vram_size is NULL!\n");
+		RenderLoop = false;
+		
+	}
 	GPU_Registers = malloc(sizeof(DevScreenRegs));
 	if (GPU_Registers == NULL) {
 		SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, "DevScreen Fatal Error", strerror(errno), NULL);
@@ -126,15 +131,20 @@ void DevScr_Init(DevVidMode screen_mode, unsigned long vram_size) {
 #ifdef USE_SCRIPT_FOR_DEV_EMU
 const luaL_Reg DevScr_Lib[] = {
 	"Init",DevScr_InitDeviceLua,
+	"RenderLoop",DevScr_BeginRenderLoopLua,
 	"Write",DevScr_WriteToDeviceLua,
 	"Read",DevScr_ReadFromDeviceLua,
 	NULL,NULL
 };
 extern lua_State* Emu_LuaState;
+int DevScr_BeginRenderLoopLua(lua_State* L) {
+	DevScr_BeginRenderLoop();
+	return 0;
+}
 int DevScr_InitDeviceLua(lua_State* L) {
-	lua_setglobal(L, "DevEmu_MainLoop");
-	printf("Width:%i\nHeight:%i\nVRAM Size:%i\n", lua_tointeger(L, 1), lua_tointeger(L, 2), lua_tointeger(L, 0));
-	DevScr_CreateDisplay(lua_tointeger(L,1), lua_tointeger(L,2),lua_tointeger(L,0));
+	//lua_setglobal(L, "DevEmu_MainLoop");
+	printf("Width:%i\nHeight:%i\nVRAM Size:%i\n", lua_tointeger(L, 1), lua_tointeger(L, 2), lua_tointeger(L, 3));
+	DevScr_CreateDisplay(lua_tointeger(L,1), lua_tointeger(L,2),lua_tointeger(L,3));
 	return 0;
 }
 int DevScr_ReadFromDeviceLua(lua_State* L) {
@@ -245,10 +255,16 @@ void DevScr_CreateDisplay(int width, int height, unsigned long vram_size) {
 		//	SDL_SetHint(SDL_HINT_RENDER_DRIVER, "direct3d11");
 			DevScr_Init(BITMAP_800x600_8BPP, vram_size);
 #ifdef USE_SCRIPT_FOR_DEV_EMU
-			
-			DevScr_BeginRenderLoop();
+			while(RenderLoop){
+			if (luaL_dostring(Emu_LuaState, "DevEmu.MainLoop()") == 1) {
+				printf("%s\n", lua_tostring(Emu_LuaState, -1));
+				RenderLoop = false;
+			}
+			}
 #endif
+
 			
+	
 		}
 	
 }
@@ -262,12 +278,7 @@ void DevScr_BeginRenderLoop() {
 			SDL_PollEvent(&SDLEvent);
 		
 			SDL_RenderClear(SDLRenderer);
-#ifdef USE_SCRIPT_FOR_DEV_EMU
-	
-			if (luaL_dostring(Emu_LuaState, "DevEmu.MainLoop()") == 1) {
-				printf("%s\n", lua_tostring(Emu_LuaState, -1));
-			}
-#endif
+
 			DevScr_DrawVRAM();
 
 			

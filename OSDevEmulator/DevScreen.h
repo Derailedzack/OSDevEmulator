@@ -17,5 +17,5 @@ void DevScr_BeginRenderLoop();
 int DevScr_InitDeviceLua(lua_State* L);
 int DevScr_ReadFromDeviceLua(lua_State* L);
 int DevScr_WriteToDeviceLua(lua_State* L);
-
+int DevScr_BeginRenderLoopLua(lua_State* L);
 #endif
