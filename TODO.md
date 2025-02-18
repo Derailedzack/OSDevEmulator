@@ -1,5 +1,6 @@
 # OSDevEmulator TODO List
   1. [ ] Add support for using lua for custom machines
+  2. [ ] Port to the WiiU when this project is more complete
 # Lua TODO List
   1. [ ] Rewrite libraries in pure lua where possible and makes sense instead of C
 # DevScreen TODO List
