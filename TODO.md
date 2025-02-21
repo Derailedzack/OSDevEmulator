@@ -1,4 +1,4 @@
-# OSDevEmulator TODO List
+ # OSDevEmulator TODO List
   1. [ ] Add support for using lua for custom machines
   2. [ ] Port to the WiiU when this project is more complete
 # Lua TODO List
@@ -13,3 +13,6 @@
   7. [ ]  Fix the Release config (Add C includes and libraries as well the library path for said libraries
   8. [ ]  Implement shader complication and linking into the DevScreen
   9. [ ] Decouple main loop from the DevScreen
+10. [ ] Add text attribute registers to the DevScreen registers
+11. [ ] Add text FG and BG color to DevScreen 
+12. [ ] Change Videomode check from a if statement to a switch case
