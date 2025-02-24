@@ -17,3 +17,4 @@
 10. [ ] Add text attribute registers to the DevScreen registers
 11. [ ] Add text FG and BG color to DevScreen 
 12. [ ] Change Videomode check from a if statement to a switch case
+13. [ ] Add bank switching support to VRAM and TilesGFX RAM
