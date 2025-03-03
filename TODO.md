@@ -18,3 +18,4 @@
 11. [ ] Add text FG and BG color to DevScreen 
 12. [ ] Change Videomode check from a if statement to a switch case
 13. [ ] Add bank switching support to VRAM and TilesGFX RAM
+14. [ ] Add total number of tiles register to DevScreen or Number of tiles to indicate how many SDL Rects to allocate
