@@ -4,6 +4,7 @@
   3. [ ] Implement support for using a custom  scripting language 
 # Lua TODO List
   1. [ ] Rewrite libraries in pure lua where possible and makes sense instead of C
+  2. [ ] Rename Lua library name to just Lua51 for allowing for luajit to used instead of the plain old c implementation of Lua 5.1
 # DevScreen TODO List
   1. [x]  Rewrite bitmap display to use a texture for rendering instead of glDrawpixel (1, 3, 4 and 5 have been done for sometime now)
   2. [ ]  Add premake support
