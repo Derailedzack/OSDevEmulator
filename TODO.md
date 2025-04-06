@@ -1,7 +1,8 @@
  # OSDevEmulator TODO List
   1. [ ] Add support for using lua for custom machines
   2. [ ] Port to the WiiU when this project is more complete
-  3. [ ] Implement support for using a custom  scripting language 
+  3. [ ] Implement support for using a custom  scripting language
+  4. [ ] Add CPU emulator specific code to main branch (As syncing branches sucks)
 # Lua TODO List
   1. [ ] Rewrite libraries in pure lua where possible and makes sense instead of C
   2. [ ] Rename Lua library name to just Lua51 for allowing for luajit to used instead of the plain old c implementation of Lua 5.1
@@ -20,4 +21,4 @@
 12. [ ] Change Videomode check from a if statement to a switch case
 13. [ ] Add bank switching support to VRAM and TilesGFX RAM
 14. [ ] Add total number of tiles register to DevScreen or Number of tiles to indicate how many SDL Rects to allocate
-15. [ ] Add CPU emulator specific code to main branch (As syncing branches sucks)
+15. [ ] Remove Read and Write from the DevScr lua library (As well it doesn't really make sense to have this in lua
