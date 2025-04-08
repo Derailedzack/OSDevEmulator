@@ -15,10 +15,10 @@
   6. [ ]  Implement various display modes (Text mode(s),Bitmap mode(s) at varrying color depths and resolutions and Tile mode(s)
   7. [ ]  Fix the Release config (Add C includes and libraries as well the library path for said libraries
   8. [ ]  Implement shader complication and linking into the DevScreen
-  9. [ ] Decouple main loop from the DevScreen
-10. [ ] Add text attribute registers to the DevScreen registers
-11. [ ] Add text FG and BG color to DevScreen 
-12. [ ] Change Videomode check from a if statement to a switch case
-13. [ ] Add bank switching support to VRAM and TilesGFX RAM
-14. [ ] Add total number of tiles register to DevScreen or Number of tiles to indicate how many SDL Rects to allocate
-15. [ ] Remove Read and Write from the DevScr lua library (As well it doesn't really make sense to have this in lua
+  9. [x] Decouple main loop from the DevScreen
+ 10. [ ] Add text attribute registers to the DevScreen registers
+ 11. [ ] Add text FG and BG color to DevScreen 
+ 12. [x] Change Videomode check from a if statement to a switch case
+ 13. [ ] Add bank switching support to VRAM and TilesGFX RAM
+ 14. [ ] Add total number of tiles register to DevScreen or Number of tiles to indicate how many SDL Rects to allocate
+ 15. [ ] Remove Read and Write from the DevScr lua library (As well it doesn't really make sense to have this in lua
