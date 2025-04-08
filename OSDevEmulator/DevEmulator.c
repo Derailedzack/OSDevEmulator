@@ -1,5 +1,6 @@
 #include"DevEmulator.h"
 #include"DevScreen.h"
+#include "DevKeyboard.h"
 #include"lualib.h"
 #include "lauxlib.h"
 
@@ -54,6 +55,9 @@ unsigned char DevEmu_Read8(void* ext, unsigned long addr) {
 	if (addr < 0x240000) {
 		return VRAM[addr];
 	}
+	if (addr < 0x241000) {
+		return DevKeyboard_ReadKey(addr);
+	}
 	return 0xff;
 }
 unsigned short DevEmu_Read16(void* ext, unsigned long addr) {
@@ -66,6 +70,9 @@ unsigned short DevEmu_Read16(void* ext, unsigned long addr) {
 	if (addr < 0x240000) {
 		return VRAM[addr];
 	}
+	if (addr < 0x241000) {
+		return DevKeyboard_ReadKey(addr);
+	}
 	return 0xff;
 }
 unsigned long DevEmu_Read32(void* ext, unsigned long addr) {
@@ -77,6 +84,9 @@ unsigned long DevEmu_Read32(void* ext, unsigned long addr) {
 	}
 	if (addr < 0x240000) {
 		return VRAM[addr];
+	}
+	if (addr < 0x241000) {
+		return DevKeyboard_ReadKey(addr);
 	}
 	return 0xff;
 }
@@ -132,7 +142,9 @@ void DevEmu_Init(CPU_TYPE m68k_type, unsigned long vram_size, DevEmu_MainLoop_Fu
 	if (main_loop_func != NULL) {
 		MainLoopPtr = main_loop_func;
 	}
-	DevScr_CreateDisplay(800, 600, vram_size);
+	
+	DevScr_CreateDisplay(800, 600,TILE_MODE, vram_size,vram_size);
+	DevKeyboard_Init();
 	DevEmu_MainLoop();
 }
 #endif
