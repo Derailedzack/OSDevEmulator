@@ -133,6 +133,7 @@
   <ItemGroup>
     <ClCompile Include="DevDevice.c" />
     <ClCompile Include="DevEmulator.c" />
+    <ClCompile Include="DevKeyboard.c" />
     <ClCompile Include="DevScreen.c" />
     <ClCompile Include="glad.c" />
     <ClCompile Include="LuaMemoryMap.c" />
@@ -144,6 +145,7 @@
     <ClInclude Include="Config.h" />
     <ClInclude Include="DevDevice.h" />
     <ClInclude Include="DevEmulator.h" />
+    <ClInclude Include="DevKeyboard.h" />
     <ClInclude Include="DevScreen.h" />
     <ClInclude Include="LuaMemoryMap.h" />
     <ClInclude Include="Sprite-0001.h" />
