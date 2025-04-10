@@ -189,6 +189,7 @@ int DevScr_InitDeviceLua(lua_State* L) {
 
 	return 1;
 }
+#if 0
 int DevScr_ReadFromDeviceLua(lua_State* L) {
 	unsigned int VRAM_index = lua_tointeger(L, 1);
 
@@ -219,6 +220,7 @@ int DevScr_WriteToDeviceLua(lua_State* L) {
 	}
 
 }
+#endif
 #endif
 
 

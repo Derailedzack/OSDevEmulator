@@ -21,8 +21,8 @@ void DevScr_GLBeginRenderLoop();
 void DevScr_BeginRenderLoop();
 #ifdef USE_SCRIPT_FOR_DEV_EMU
 int DevScr_InitDeviceLua(lua_State* L);
-int DevScr_ReadFromDeviceLua(lua_State* L);
-int DevScr_WriteToDeviceLua(lua_State* L);
+//int DevScr_ReadFromDeviceLua(lua_State* L);
+//int DevScr_WriteToDeviceLua(lua_State* L);
 int DevScr_BeginRenderLoopLua(lua_State* L);
 #endif
 #endif
