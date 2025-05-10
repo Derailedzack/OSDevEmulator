@@ -3,6 +3,8 @@
   2. [ ] Port to the WiiU when this project is more complete
   3. [ ] Implement support for using a custom  scripting language
   4. [ ] Add CPU emulator specific code to main branch (As syncing branches sucks)
+ 5. [ ] Add x86 lua library as vurrently lia 5.1 is built for x64 only
+  6. [ ] Ensure x86 builds work as I haven't yet tested x86
 # Lua TODO List
   1. [ ] Rewrite libraries in pure lua where possible and makes sense instead of C
   2. [ ] Rename Lua library name to just Lua51 for allowing for luajit to used instead of the plain old c implementation of Lua 5.1
