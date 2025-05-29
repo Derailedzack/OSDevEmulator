@@ -25,6 +25,6 @@ typedef void (DevEmu_Write32_Func)(void* ext, unsigned long addr, unsigned long 
 typedef void (DevEmu_Init_Func)(CPU_TYPE cpu_type,unsigned long vram_size);
 typedef void (DevEmu_MainLoop_Func)();
 int DevEmu_PrintLog(lua_State* L);
-
+void DevEmu_MainLoop();
 void DevEmu_Init(CPU_TYPE m68k_type,unsigned long vram_size, DevEmu_MainLoop_Func* main_loop_func);
 void DevEmu_InitLua(const char* script_path);

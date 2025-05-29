@@ -145,6 +145,5 @@ void DevEmu_Init(CPU_TYPE m68k_type, unsigned long vram_size, DevEmu_MainLoop_Fu
 	
 	DevScr_CreateDisplay(800, 600,TILE_MODE, vram_size,vram_size);
 	DevKeyboard_Init();
-	DevEmu_MainLoop();
 }
 #endif

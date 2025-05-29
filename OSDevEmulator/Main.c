@@ -9,6 +9,6 @@ int main() {
 	//void* test = calloc(23,4);
 	//printf("test:%p\n", test);
 	//DevEmu_Init(M68000, NULL);
-	DevEmu_Init(M68000,2048*1024,NULL);
+	DevEmu_Init(M68000,2048*1024, DevEmu_MainLoop);
 #endif
 }
