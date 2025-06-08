@@ -139,8 +139,8 @@ void DevEmu_Init(CPU_TYPE m68k_type, unsigned long vram_size, DevEmu_MainLoop_Fu
 		printf("vram_size is NULL!\n");
 		return;
 	}
-	if (main_loop_func != NULL) {
-		MainLoopPtr = main_loop_func;
+	if (custom_main_loop_func != NULL) {
+		MainLoopPtr = custom_main_loop_func;
 	}
 	
 	DevScr_CreateDisplay(800, 600,TILE_MODE, vram_size,vram_size);
