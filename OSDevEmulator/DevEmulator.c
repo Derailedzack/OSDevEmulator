@@ -132,7 +132,7 @@ void DevEmu_Trap(void* ext, unsigned n) {
 void DevEmu_LogException(void* ext, unsigned tn) {
 	SDL_LogError(SDL_LOG_CATEGORY_APPLICATION, "tn:%u", tn);
 }
-void DevEmu_Init(CPU_TYPE m68k_type, unsigned long vram_size, DevEmu_MainLoop_Func* main_loop_func) {
+void DevEmu_Init(CPU_TYPE m68k_type, unsigned long vram_size, DevEmu_MainLoop_Func* custom_main_loop_func) {
 	//LoadDeviceFromSharedObject("",false);
 	//DevEmu_InitLua("");
 	if (vram_size == NULL) {
