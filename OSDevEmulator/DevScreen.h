@@ -12,7 +12,7 @@ extern SDL_Window* SDLWindow;
 extern SDL_Renderer* SDLRenderer;
 typedef enum  {
 	INVAILD,
-	BITMAP_800x600_8BPP, //I'm aware that x can also be used as a var but we can't use * as that creates a syntax error. As the star gets treated as multipulication
+	BITMAP_800x600_32BPP, //I'm aware that x can also be used as a var but we can't use * as that creates a syntax error. As the star gets treated as multipulication
 	TEXT_MODE,
 	TILE_MODE
 }DevVidMode;

@@ -143,7 +143,7 @@ void DevEmu_Init(CPU_TYPE m68k_type, unsigned long vram_size, DevEmu_MainLoop_Fu
 		MainLoopPtr = custom_main_loop_func;
 	}
 	
-	DevScr_CreateDisplay(800, 600,BITMAP_800x600_8BPP, vram_size,vram_size);
+	DevScr_CreateDisplay(800, 600,BITMAP_800x600_32BPP, vram_size,vram_size);
 	DevKeyboard_Init();
 	DevEmu_MainLoop();
 }

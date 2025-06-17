@@ -96,7 +96,7 @@ void DevScr_BitmapInit(unsigned long vram_size) {
 			exit(-3);
 		}
 
-		GPU_Registers->Screen_Mode = BITMAP_800x600_8BPP;
+		GPU_Registers->Screen_Mode = BITMAP_800x600_32BPP;
 	//	VRAM = lua_newuserdata(Emu_LuaState, vram_size);
 		//printf("VRAM:%x\n", VRAM[1]);
 
@@ -151,7 +151,7 @@ void DevScr_Init(DevVidMode screen_mode, unsigned long vram_size,unsigned long t
 
 	switch (GPU_Registers->Screen_Mode)
 	{
-	case BITMAP_800x600_8BPP:
+	case BITMAP_800x600_32BPP:
 		DevScr_BitmapInit(vram_size);
 		break;
 	case TILE_MODE:
@@ -233,7 +233,7 @@ void DevScr_DrawVRAM() {
 	float tex_w = 0;
 	float tex_h = 0;
 	
-	if (GPU_Registers->Screen_Mode == BITMAP_800x600_8BPP) {
+	if (GPU_Registers->Screen_Mode == BITMAP_800x600_32BPP) {
 
 		if (ShouldUseGL) { //So this doesn't work as it's incomplete
 			DevScr_GL_DrawVRAM();
@@ -301,7 +301,7 @@ void DevScr_CreateDisplay(int width, int height, DevVidMode screen_mode, unsigne
 			//SDL_AddEventWatch(DevScr_EventHook, NULL);
 		//	SDL_SetHint(SDL_HINT_RENDER_DRIVER, "direct3d11");
 #ifndef USE_SCRIPT_FOR_DEV_EMU
-			DevScr_Init(BITMAP_800x600_8BPP, vram_size, tilegfx_mem_size);
+			DevScr_Init(BITMAP_800x600_32BPP, vram_size, tilegfx_mem_size);
 #endif
 #ifdef USE_SCRIPT_FOR_DEV_EMU
 			DevScr_Init(BITMAP_800x600_8BPP, vram_size, tilegfx_mem_size);
