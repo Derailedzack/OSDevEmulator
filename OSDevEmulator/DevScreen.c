@@ -4,7 +4,7 @@
 #include"VRAM_TEST.h"
 #include <string.h>
 //TODO: Clean this file up. There's too much crap here
-bool ShouldUseGL = false;
+bool ShouldUseGL = true;
 extern bool RenderLoop;
 
 typedef struct DevScreenTileRegs {
@@ -225,9 +225,9 @@ int DevScr_WriteToDeviceLua(lua_State* L) {
 
 
 void DevScr_GL_DrawVRAM() {
-	glBindTexture(GL_TEXTURE_2D, scr_tex_id);
+	/*glBindTexture(GL_TEXTURE_2D, scr_tex_id);
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, 800, 600, 0, GL_RGBA, GL_UNSIGNED_BYTE, VRAM);
-	glGenerateMipmap(GL_TEXTURE_2D);
+	glGenerateMipmap(GL_TEXTURE_2D);*/
 }
 void DevScr_DrawVRAM() {
 	float tex_w = 0;
@@ -363,5 +363,9 @@ void DevScr_GLBeginRenderLoop() {
 				glViewport(0, 0, SDLEvent.window.data1, SDLEvent.window.data2);
 
 			}
+		}
+		if (SDLEvent.type == SDL_QUIT) {
+			RenderLoop = false;
+
 		}
 }
