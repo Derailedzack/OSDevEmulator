@@ -23,4 +23,5 @@
  13. [ ] Add bank switching support to VRAM and TilesGFX RAM
  14. [ ] Add total number of tiles register to DevScreen or Number of tiles to indicate how many SDL Rects to allocate
  15. [ ] Remove Read and Write from the DevScr lua library (As well it doesn't really make sense to have this in lua
-16. [ ] Rename 800x600 bitmap 8bpp to 800x600  bitmap 32bpp
+ 16. [x] Rename 800x600 bitmap 8bpp to 800x600  bitmap 32bpp
+ 17. [ ] Add better way to enable and disable OpenGL for the DevScreen (Might use a config for this)
