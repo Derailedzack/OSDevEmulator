@@ -4,7 +4,7 @@
 #include"VRAM_TEST.h"
 #include <string.h>
 //TODO: Clean this file up. There's too much crap here
-bool ShouldUseGL = true;
+bool ShouldUseGL = false;
 extern bool RenderLoop;
 
 typedef struct DevScreenTileRegs {
