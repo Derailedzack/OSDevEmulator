@@ -11,6 +11,7 @@ extern char* VRAM;
 #endif
 bool RenderLoop = true;
 DevEmu_MainLoop_Func* MainLoopPtr;
+SDL_RWops* ROMFile;
 #ifdef USE_SCRIPT_FOR_DEV_EMU
 lua_State* Emu_LuaState;
 extern luaL_Reg MemoryMapLib[];
@@ -141,6 +142,14 @@ void DevEmu_Init(CPU_TYPE m68k_type, unsigned long vram_size, DevEmu_MainLoop_Fu
 	}
 	if (custom_main_loop_func != NULL) {
 		MainLoopPtr = custom_main_loop_func;
+	}
+	ROMFile = SDL_RWFromFile("Main.bin", "r");
+	if (ROMFile == NULL) {
+		printf("%s\n", SDL_GetError());
+	}
+	else {
+		SDL_RWread(ROMFile, ROM, 1, 256 * 1024);
+
 	}
 	
 	DevScr_CreateDisplay(800, 600,BITMAP_800x600_32BPP, vram_size,vram_size);
