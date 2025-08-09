@@ -4,6 +4,7 @@
   3. [ ] Implement support for using a custom  scripting language
   4. [ ] Add CPU emulator specific code to main branch (As syncing branches sucks)
  5. [ ] Add support for using wasm, lua or a shared object to create/define an emulated system (Might use wasmer for the wasm part)
+ 6. [ ] Decide on whether to split wasm off as a separate project based on the OSDevEmulator's source
 # Lua TODO List
   1. [ ] Rewrite libraries in pure lua where possible and makes sense instead of C
   2. [ ] Rename Lua library name to just Lua51 for allowing for luajit to used instead of the plain old c implementation of Lua 5.1
