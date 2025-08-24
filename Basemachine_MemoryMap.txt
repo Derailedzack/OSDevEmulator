@@ -1,0 +1,10 @@
+200000 -- 2 MB in hex (First byte is part of the base address)
+40000 -- 256 KB in hex
+100000 -- 1 MB in hex 
+
+0x00000 - 0x40000 -- ROM
+0x40000 - 0x100000 -- RAM
+
+0x100000 - 0x240000 -- VRAM 
+
+0x240000 - 0x241000 (0x240200) -- Keyboard buffer (Yes I'm aware the end address is wrong this is just how it is in the project)
