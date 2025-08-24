@@ -56,7 +56,7 @@ unsigned char DevEmu_Read8(void* ext, unsigned long addr) {
 	if (addr < 0x240000) {
 		return VRAM[addr];
 	}
-	if (addr < 0x241000) {
+	if (addr < 0x240200) {
 		return DevKeyboard_ReadKey(addr);
 	}
 	return 0xff;
@@ -71,7 +71,7 @@ unsigned short DevEmu_Read16(void* ext, unsigned long addr) {
 	if (addr < 0x240000) {
 		return VRAM[addr];
 	}
-	if (addr < 0x241000) {
+	if (addr < 0x240200) {
 		return DevKeyboard_ReadKey(addr);
 	}
 	return 0xff;
@@ -86,7 +86,7 @@ unsigned long DevEmu_Read32(void* ext, unsigned long addr) {
 	if (addr < 0x240000) {
 		return VRAM[addr];
 	}
-	if (addr < 0x241000) {
+	if (addr < 0x240200) {
 		return DevKeyboard_ReadKey(addr);
 	}
 	return 0xff;
