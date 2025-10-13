@@ -48,71 +48,71 @@ void DevEmu_MainLoop() {
 }
 unsigned char DevEmu_Read8(void* ext, unsigned long addr) {
 	if (addr < 0x40000) {
-		return ROM[addr];
+		return ROM[addr & 0x00ffff];
 	}
 	if (addr < 0x100000) {
-		return RAM[addr];
+		return RAM[addr & 0x00ffff];
 	}
 	if (addr < 0x240000) {
-		return VRAM[addr];
+		return VRAM[addr & 0x00ffff];
 	}
 	if (addr < 0x240200) {
-		return DevKeyboard_ReadKey(addr);
+		return DevKeyboard_ReadKey(addr & 0x00ffff);
 	}
 	return 0xff;
 }
 unsigned short DevEmu_Read16(void* ext, unsigned long addr) {
 	if (addr < 0x40000) {
-		return ROM[addr];
+		return ROM[addr & 0x00ffff];
 	}
 	if (addr < 0x100000) {
-		return RAM[addr];
+		return RAM[addr & 0x00ffff];
 	}
 	if (addr < 0x240000) {
-		return VRAM[addr];
+		return VRAM[addr & 0x00ffff];
 	}
 	if (addr < 0x240200) {
-		return DevKeyboard_ReadKey(addr);
+		return DevKeyboard_ReadKey(addr & 0x00ffff);
 	}
 	return 0xff;
 }
 unsigned long DevEmu_Read32(void* ext, unsigned long addr) {
 	if (addr < 0x40000) {
-		return ROM[addr];
+		return ROM[addr & 0x00ffff];
 	}
 	if (addr < 0x100000) {
-		return RAM[addr];
+		return RAM[addr & 0x00ffff];
 	}
 	if (addr < 0x240000) {
-		return VRAM[addr];
+		return VRAM[addr & 0x00ffff];
 	}
 	if (addr < 0x240200) {
-		return DevKeyboard_ReadKey(addr);
+		return DevKeyboard_ReadKey(addr & 0x00ffff);
 	}
 	return 0xff;
 }
 void DevEmu_Write8(void* ext, unsigned long addr, unsigned char val) {
 	if (addr < 0x100000) {
-		RAM[addr] = val;
+		RAM[addr & 0x00ffff] = val;
 	}
 	if (addr < 0x240000) {
-		VRAM[addr] = val;
+		VRAM[addr & 0x00ffff] = val;
 	}
 }
 void DevEmu_Write16(void* ext, unsigned long addr, unsigned short val) {
 	if (addr < 0x100000) {
-		RAM[addr] = val;
+		RAM[addr & 0x00ffff] = val;
 	}
 	if (addr < 0x240000) {
-		VRAM[addr] = val;
+		VRAM[addr & 0x00ffff] = val;
 	}
 }
 void DevEmu_Write32(void* ext, unsigned long addr, unsigned long val) {
 	if (addr < 0x100000) {
-		RAM[addr] = val;
+		RAM[addr & 0x00ffff] = val;
 	}
 	if (addr < 0x240000) {
-	 	VRAM[addr] = val;
+	 	VRAM[addr & 0x00ffff] = val;
 	}
 }
 
