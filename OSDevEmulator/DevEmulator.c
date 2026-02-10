@@ -118,10 +118,10 @@ void DevEmu_Write32(void* ext, unsigned long addr, unsigned long val) {
 
 void DevEmu_Reset(void* ext, unsigned val) {
 	
-	SDL_LogVerbose(SDL_LOG_CATEGORY_APPLICATION, "val:%u\n", val);
+	printf("val:%u\n", val);
 }
 int DevEmu_Hook(void* ext, unsigned val) {
-	SDL_LogVerbose(SDL_LOG_CATEGORY_APPLICATION, "val:%u\n", val);
+	printf("val:%u\n", val);
 	return 0x00;
 }
 unsigned DevEmu_Intrrupt(void* ext, unsigned irq_level) {
@@ -131,7 +131,7 @@ void DevEmu_Trap(void* ext, unsigned n) {
 
 }
 void DevEmu_LogException(void* ext, unsigned tn) {
-	SDL_LogError(SDL_LOG_CATEGORY_APPLICATION, "tn:%u", tn);
+	printf("tn:%u", tn);
 }
 void DevEmu_Init(CPU_TYPE m68k_type, unsigned long vram_size, DevEmu_MainLoop_Func* custom_main_loop_func) {
 	//LoadDeviceFromSharedObject("",false);
